@@ -29,7 +29,9 @@ export function Header({
 }: HeaderProps) {
   const isRebalancing = activeMainNavId === 'refresh';
   const prototypeSubtitle =
-    prototypeVersion !== 'v1' ? ` · Prototype ${prototypeVersion.toUpperCase()}` : '';
+    prototypeVersion !== 'v1' && prototypeVersion !== 'v1b'
+      ? ` · Prototype ${prototypeVersion.toUpperCase()}`
+      : '';
 
   if (isRebalancing) {
     const taskList = rebalancingHeaderMode === 'taskList';

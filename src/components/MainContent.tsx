@@ -2,6 +2,7 @@ import type { PrototypeVersionId } from '../lib/prototypeVersion';
 import { MAIN_NAV_ASSORTMENT_BODY_IDS } from '../mainNavModuleIds';
 import { RebalancingTaskListScreen } from './rebalancing/RebalancingTaskListScreen';
 import { RebalancingPrototypeV1 } from './rebalancing/prototypes/RebalancingPrototypeV1';
+import { RebalancingPrototypeV1B } from './rebalancing/prototypes/RebalancingPrototypeV1B';
 import { RebalancingPrototypeV2 } from './rebalancing/prototypes/RebalancingPrototypeV2';
 import { RebalancingPrototypeV3 } from './rebalancing/prototypes/RebalancingPrototypeV3';
 import { RebalancingPrototypeV4 } from './rebalancing/prototypes/RebalancingPrototypeV4';
@@ -20,6 +21,8 @@ function rebalancingWorkspaceForVersion(prototypeVersion: PrototypeVersionId) {
   switch (prototypeVersion) {
     case 'v1':
       return <RebalancingPrototypeV1 prototypeVersion={prototypeVersion} />;
+    case 'v1b':
+      return <RebalancingPrototypeV1B prototypeVersion={prototypeVersion} />;
     case 'v2':
       return <RebalancingPrototypeV2 prototypeVersion={prototypeVersion} />;
     case 'v3':
