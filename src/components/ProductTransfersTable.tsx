@@ -238,6 +238,53 @@ function TransferPopReason({ label }: { label: ReactNode }) {
   );
 }
 
+const TRANSFER_DRAWER_OTHER_REASONS_TBC = [
+  'Warehouse can still supply',
+  'Stock target limits',
+  'Low value move',
+  'Better option chosen',
+  'Storage capacity reached',
+] as const;
+
+/** Shared by warehouse and in-transit “More detail” drawers — reasoning blocks below Snapshot */
+function TransferDrawerReasonSections() {
+  return (
+    <div className="mt-4 border-t border-[#E3E8F0] pt-4">
+      <p className={`${transferPopSection} mb-2`}>Reason 1 unit was left behind</p>
+      <ul className="flex flex-col gap-2">
+        <li className="flex items-start gap-2">
+          <span
+            aria-hidden
+            className="mt-[2px] inline-flex size-5 shrink-0 items-center justify-center rounded-full bg-[#6864E6]/10 text-[#6864E6]"
+          >
+            <Lightbulb className="size-3" strokeWidth={2} aria-hidden />
+          </span>
+          <p className="pt-0.5 font-['Inter',sans-serif] text-[12px] font-normal leading-relaxed text-[#101828]">
+            Receiving location - PR PP Nancy - Trip is full (max 100)
+          </p>
+        </li>
+      </ul>
+
+      <p className={`${transferPopSection} mt-4 mb-2`}>Other potential reasons TBC</p>
+      <ul className="flex flex-col gap-2">
+        {TRANSFER_DRAWER_OTHER_REASONS_TBC.map((reason) => (
+          <li key={reason} className="flex items-start gap-2">
+            <span
+              aria-hidden
+              className="mt-[2px] inline-flex size-5 shrink-0 items-center justify-center rounded-full bg-[#6864E6]/10 text-[#6864E6]"
+            >
+              <Lightbulb className="size-3" strokeWidth={2} aria-hidden />
+            </span>
+            <p className="pt-0.5 font-['Inter',sans-serif] text-[12px] font-normal leading-relaxed text-[#101828]">
+              {reason}
+            </p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
 function formatCurrencyEur(value: number): string {
   return `€${Math.round(value).toLocaleString('en-US')}`;
 }
@@ -592,6 +639,7 @@ export function ProductTransfersTable({
   onBack,
   showBreadcrumb = true,
 }: ProductTransfersTableProps) {
+  const detail = parentRow.productCellDetail;
   const [selected, setSelected] = useState<Record<string, boolean>>({});
   const [showTuBreakdown, setShowTuBreakdown] = useState(false);
   const [tuBadgePopover, setTuBadgePopover] = useState<{
@@ -1262,6 +1310,7 @@ export function ProductTransfersTable({
                       value={inTransitDetail.weeksCoverage}
                     />
                   </div>
+                  <TransferDrawerReasonSections />
                   {inTransitDetail.note ? (
                     <p className="mt-3 font-['Inter',sans-serif] text-[12px] font-normal leading-relaxed text-[#6A7282]">
                       {inTransitDetail.note}
@@ -1334,45 +1383,7 @@ export function ProductTransfersTable({
                     />
                   </div>
 
-                  <div className="mt-4 border-t border-[#E3E8F0] pt-4">
-                    <p className={`${transferPopSection} mb-2`}>Reason 1 unit was left behind</p>
-                    <ul className="flex flex-col gap-2">
-                      <li className="flex items-start gap-2">
-                        <span
-                          aria-hidden
-                          className="mt-[2px] inline-flex size-5 shrink-0 items-center justify-center rounded-full bg-[#6864E6]/10 text-[#6864E6]"
-                        >
-                          <Lightbulb className="size-3" strokeWidth={2} aria-hidden />
-                        </span>
-                        <p className="pt-0.5 font-['Inter',sans-serif] text-[12px] font-normal leading-relaxed text-[#101828]">
-                          Receiving location - PR PP Nancy - Trip is full (max 100)
-                        </p>
-                      </li>
-                    </ul>
-
-                    <p className={`${transferPopSection} mt-4 mb-2`}>Other potential reasons TBC</p>
-                    <ul className="flex flex-col gap-2">
-                      {[
-                        'Warehouse can still supply',
-                        'Stock target limits',
-                        'Low value move',
-                        'Better option chosen',
-                        'Storage capacity reached',
-                      ].map((reason) => (
-                        <li key={reason} className="flex items-start gap-2">
-                          <span
-                            aria-hidden
-                            className="mt-[2px] inline-flex size-5 shrink-0 items-center justify-center rounded-full bg-[#6864E6]/10 text-[#6864E6]"
-                          >
-                            <Lightbulb className="size-3" strokeWidth={2} aria-hidden />
-                          </span>
-                          <p className="pt-0.5 font-['Inter',sans-serif] text-[12px] font-normal leading-relaxed text-[#101828]">
-                            {reason}
-                          </p>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+                  <TransferDrawerReasonSections />
                 </div>
               </div>
             </div>,
